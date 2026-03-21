@@ -94,6 +94,7 @@ sourceSets.main.resources { srcDir 'src/generated/resources' }
 
 repositories {
     mavenCentral()
+    // this local maven for a lib mod 'ticklib'
     maven {
         name = "local_ticklib"
         url = uri("${rootProject.projectDir.parentFile}/maven-repo")
