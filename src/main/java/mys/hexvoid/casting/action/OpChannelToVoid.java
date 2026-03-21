@@ -10,10 +10,8 @@ import at.petrak.hexcasting.api.casting.iota.Iota;
 import at.petrak.hexcasting.api.casting.mishaps.Mishap;
 import at.petrak.hexcasting.api.casting.mishaps.MishapBadCaster;
 import at.petrak.hexcasting.api.misc.MediaConstants;
-import mys.hexvoid.Hexvoid;
 import mys.hexvoid.damagesource.DamageSources;
 import mys.hexvoid.datagen.DamageTypes;
-import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
@@ -22,7 +20,6 @@ import net.minecraft.world.level.block.Blocks;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.io.IOException;
 import java.util.List;
 
 public class OpChannelToVoid implements SpellAction {
@@ -63,17 +60,11 @@ public class OpChannelToVoid implements SpellAction {
         public void cast(@NotNull CastingEnvironment env) {
             if (env.getCastingEntity() instanceof ServerPlayer player) {
                 if (player.getBlockY() - 1 == -64) {
-                    try (var level = player.level()) {
-                        if (level instanceof ServerLevel serverLevel) {
-                            if (serverLevel.getBlockState(player.getOnPos()).is(Blocks.BEDROCK)) {
-                                if (!serverLevel.isClientSide()) {
-                                    serverLevel.destroyBlock(new BlockPos(player.getOnPos()), false);
-                                }
-                            } else
-                                player.displayClientMessage(Component.translatable("hexvoid.msg.spell.ctv.block"), true);
-                        }
-                    } catch (IOException e) {
-                        Hexvoid.LOGGER.error("cannot get level.", e);
+                    if (player.level() instanceof ServerLevel serverLevel) {
+                        if (serverLevel.getBlockState(player.getOnPos()).is(Blocks.BEDROCK))
+                            serverLevel.destroyBlock(player.getOnPos(), false);
+                        else
+                            player.displayClientMessage(Component.translatable("hexvoid.msg.spell.ctv.block"), true);
                     }
                 } else player.displayClientMessage(Component.translatable("hexvoid.msg.spell.ctv.pos"), true);
             } else if (env.getCastingEntity() == null) {
