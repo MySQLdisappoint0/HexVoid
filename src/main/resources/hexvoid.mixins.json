@@ -1,0 +1,20 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "mys.hexvoid.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "refmap": "hexvoid.refmap.json",
+  "mixins": [
+    "ForgeXplatImplMixin",
+    "StickUseMixin"
+  ],
+  "client": [
+    "GuiSpellcastingMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "overwrites": {
+    "requireAnnotations": true
+  }
+}
