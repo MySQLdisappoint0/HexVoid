@@ -95,30 +95,30 @@ sourceSets.main.resources { srcDir 'src/generated/resources' }
 repositories {
     mavenCentral()
     maven {
-        name = 'local_ticklib'
-        url = uri('G:/McThings/mc forge mod/maven-repo')
+        name = "local_ticklib"
+        url = uri("${rootProject.projectDir.parentFile}/maven-repo")
     }
     maven {
-        name = 'IzzelAliz Maven'
-        url = 'https://maven.izzel.io/releases/'
+        name = "IzzelAliz Maven"
+        url = "https://maven.izzel.io/releases/"
     }
     maven {
-        name = 'Hexcasting Maven'
-        url = 'https://maven.blamejared.com/at/petra-k/hexcasting/'
+        name = "Hexcasting Maven"
+        url = "https://maven.blamejared.com/at/petra-k/hexcasting/"
     }
     maven {
-        name = 'Modrinth'
-        url = 'https://api.modrinth.com/maven'
+        name = "Modrinth"
+        url = "https://api.modrinth.com/maven"
     }
-    maven { url = 'https://maven.bawnorton.com/releases' }
-    maven { url = 'https://maven.blamejared.com' }
-    maven { url = 'https://maven.shedaniel.me/' }
-    maven { url = 'https://maven.theillusivec4.top/' }
-    maven { url = 'https://maven.minecraftforge.net/' }
-    maven { url = 'https://maven.parchmentmc.org' }
+    maven { url = "https://maven.bawnorton.com/releases" }
+    maven { url = "https://maven.blamejared.com" }
+    maven { url = "https://maven.shedaniel.me/" }
+    maven { url = "https://maven.theillusivec4.top/" }
+    maven { url = "https://maven.minecraftforge.net/" }
+    maven { url = "https://maven.parchmentmc.org" }
 
     // flatDir {
-    //     dir 'libs'
+    //     dir "libs"
     // }
 }
 
