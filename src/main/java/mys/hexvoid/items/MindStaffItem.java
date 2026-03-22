@@ -1,17 +1,23 @@
 package mys.hexvoid.items;
 
 
+import at.petrak.hexcasting.api.addldata.ADMediaHolder;
 import at.petrak.hexcasting.api.casting.eval.ResolvedPattern;
+import at.petrak.hexcasting.api.casting.eval.vm.CastingImage;
 import at.petrak.hexcasting.api.casting.eval.vm.CastingVM;
+import at.petrak.hexcasting.api.utils.MediaHelper;
 import at.petrak.hexcasting.common.lib.HexAttributes;
 import at.petrak.hexcasting.common.lib.HexSounds;
 import at.petrak.hexcasting.common.msgs.MsgClearSpiralPatternsS2C;
 import at.petrak.hexcasting.common.msgs.MsgOpenSpellGuiS2C;
 import at.petrak.hexcasting.xplat.IXplatAbstractions;
 import kotlin.Pair;
+import mys.hexvoid.casting.vm.MindStaffEnv;
+import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.stats.Stats;
 import net.minecraft.world.InteractionHand;
@@ -28,16 +34,120 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static at.petrak.hexcasting.forge.xplat.ForgeXplatImpl.TAG_PATTERNS;
+import static at.petrak.hexcasting.forge.xplat.ForgeXplatImpl.TAG_VM;
 
 public class MindStaffItem extends Item {
+    public static final String TAG_MEDIA = "storedMedia";
+    public static final String TAG_LAST_MAX_MEDIA = "lastMaxMedia";
+    public static final String TAG_CAN_STORE = "canStoreMedia";
+
     public MindStaffItem(Properties pProperties) {
         super(pProperties);
     }
 
+    public static boolean canStore(@NotNull ItemStack stack) {
+        var tag = stack.getTag();
+        if (tag != null) {
+            return tag.contains(TAG_CAN_STORE);
+        } else {
+            return false;
+        }
+    }
+
+    public static void setCanStore(@NotNull ItemStack stack, boolean canStore) {
+        CompoundTag tag = stack.getOrCreateTag();
+        tag.putBoolean(TAG_CAN_STORE, true);
+    }
+
+    public static long getStoredMedia(ItemStack stack) {
+        CompoundTag tag = stack.getOrCreateTag();
+        return tag.getLong(TAG_MEDIA);
+    }
+
+    public static long getMaxMedia(ItemStack stack) {
+        CompoundTag tag = stack.getOrCreateTag();
+        var max_last = tag.getLong(TAG_LAST_MAX_MEDIA);
+        if (max_last <= 0) max_last = 1;
+        return max_last;
+    }
+
+    public static void setStoredMedia(ItemStack stack, long media) {
+        CompoundTag tag = stack.getOrCreateTag();
+        tag.putLong(TAG_MEDIA, media);
+    }
+
+    public static void setMaxMedia(ItemStack stack, long media) {
+        CompoundTag tag = stack.getOrCreateTag();
+        tag.putLong(TAG_LAST_MAX_MEDIA, media);
+    }
+
+    public static long extractStoredMedia(ItemStack stack, long requested, boolean simulate) {
+        long stored = getStoredMedia(stack);
+        long paid = Math.min(requested, stored);
+
+        if (!simulate) {
+            setStoredMedia(stack, stored - paid);
+        }
+
+        return requested - paid;
+    }
+
+    public static long insertStoredMedia(ItemStack stack, long amount, boolean simulate) {
+        long stored = getStoredMedia(stack);
+        long last_max = getMaxMedia(stack);
+        long media_current = stored + amount;
+
+        if (!simulate) {
+            setStoredMedia(stack, media_current);
+            if (media_current > last_max) setMaxMedia(stack, media_current);
+        }
+
+        return amount;
+    }
+
+    private static InteractionHand getAnotherHand(InteractionHand hand) {
+        if (hand.equals(InteractionHand.MAIN_HAND)) return InteractionHand.OFF_HAND;
+        else return hand;
+    }
+
+    private static void tryStore(@NotNull ItemStack source, @NotNull ItemStack staff) {
+        if (source.isEmpty()) return;
+
+        ADMediaHolder holder = IXplatAbstractions.INSTANCE.findMediaHolder(source);
+        if (holder == null || !holder.canProvide()) return;
+
+        long extracted = MediaHelper.extractMedia(source);
+        if (extracted <= 0) return;
+
+        setStoredMedia(staff, getStoredMedia(staff) + extracted);
+        if (getStoredMedia(staff) + extracted > getMaxMedia(staff))
+            setMaxMedia(staff, getStoredMedia(staff) + extracted);
+    }
+
+    @Override
+    public boolean onBlockStartBreak(ItemStack stack, BlockPos pos, Player player) {
+        if (!player.level().isClientSide()) {
+            player.displayClientMessage(Component.literal("success transformed"), true);
+            setCanStore(stack, true);
+        }
+        return true;
+    }
+
     public @NotNull InteractionResultHolder<ItemStack> use(@NotNull Level world, Player player, @NotNull InteractionHand hand) {
-        if (player.getAttributeValue(HexAttributes.FEEBLE_MIND) > (double)0.0F) {
+        if (player.getAttributeValue(HexAttributes.FEEBLE_MIND) > (double) 0.0F) {
             return InteractionResultHolder.fail(player.getItemInHand(hand));
         } else {
+
+            if (canStore(player.getItemInHand(hand))) {
+                var staff = player.getItemInHand(hand);
+                var tag = staff.getOrCreateTag();
+                if (tag.contains(TAG_MEDIA)) {
+                    tag.putInt("Damage", (int) (getStoredMedia(staff) / getMaxMedia(staff)));
+                }
+                var stackAnother = player.getItemInHand(getAnotherHand(hand));
+                tryStore(stackAnother, staff);
+            }
+
             if (player.isShiftKeyDown()) {
                 if (world.isClientSide()) {
                     player.playSound(HexSounds.STAFF_RESET, 1.0F, 1.0F);
@@ -50,26 +160,50 @@ public class MindStaffItem extends Item {
             }
 
             if (!world.isClientSide() && player instanceof ServerPlayer serverPlayer) {
-                CastingVM vm = IXplatAbstractions.INSTANCE.getStaffcastVM(serverPlayer, hand);
+                CastingVM vm = new CastingVM(
+                        CastingImage.loadFromNbt(
+                                player.getPersistentData().getCompound(TAG_VM),
+                                serverPlayer.serverLevel()
+                        ),
+                        new MindStaffEnv(serverPlayer, hand)
+                );
 
                 ListTag patternsTag = player.getPersistentData().getList(TAG_PATTERNS, Tag.TAG_COMPOUND);
-                List<ResolvedPattern> patterns = new ArrayList<>(patternsTag.size());
 
                 Pair<List<CompoundTag>, CompoundTag> descs = vm.generateDescs();
-                IXplatAbstractions.INSTANCE.sendPacketToPlayer(serverPlayer, new MsgOpenSpellGuiS2C(hand, patterns, descs.getFirst(), descs.getSecond(), 0));
+                IXplatAbstractions.INSTANCE.sendPacketToPlayer(serverPlayer, new MsgOpenSpellGuiS2C(hand, new ArrayList<ResolvedPattern>(patternsTag.size()), descs.getFirst(), descs.getSecond(), 0));
             }
 
             player.awardStat(Stats.ITEM_USED.get(this));
-            player.getItemInHand(hand).hurtAndBreak(1, player, (T) -> {});
-            player.setItemInHand(hand, new ItemStack(Items.STICK, 1));
+            if (!canStore(player.getItemInHand(hand))) {
+                player.getItemInHand(hand).hurtAndBreak(1, player, (T) -> {
+                });
+                player.setItemInHand(hand, new ItemStack(Items.STICK, 1));
+            }
             return InteractionResultHolder.success(player.getItemInHand(hand));
         }
     }
 
     @Override
-    public @NotNull ItemStack finishUsingItem(@NotNull ItemStack pStack, @NotNull Level pLevel, @NotNull LivingEntity pLivingEntity) {
-        var stack = pStack.copy();
-        stack.shrink(1);
-        return super.finishUsingItem(stack, pLevel, pLivingEntity);
+    public @NotNull ItemStack finishUsingItem(@NotNull ItemStack stack, @NotNull Level level, @NotNull LivingEntity entity) {
+        if (canStore(stack)) return super.finishUsingItem(stack, level, entity);
+        var stackReturn = stack.copy();
+        stackReturn.shrink(1);
+        return super.finishUsingItem(stackReturn, level, entity);
+    }
+
+    @Override
+    public boolean isBarVisible(@NotNull ItemStack stack) {
+        return canStore(stack);
+    }
+
+    @Override
+    public int getBarWidth(@NotNull ItemStack stack) {
+        return MediaHelper.mediaBarWidth(getStoredMedia(stack), getMaxMedia(stack));
+    }
+
+    @Override
+    public int getBarColor(@NotNull ItemStack stack) {
+        return MediaHelper.mediaBarColor(getStoredMedia(stack), getMaxMedia(stack));
     }
 }
