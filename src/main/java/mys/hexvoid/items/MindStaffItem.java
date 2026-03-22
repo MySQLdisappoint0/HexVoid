@@ -2,7 +2,6 @@ package mys.hexvoid.items;
 
 
 import at.petrak.hexcasting.api.addldata.ADMediaHolder;
-import at.petrak.hexcasting.api.casting.eval.ResolvedPattern;
 import at.petrak.hexcasting.api.casting.eval.vm.CastingImage;
 import at.petrak.hexcasting.api.casting.eval.vm.CastingVM;
 import at.petrak.hexcasting.api.utils.MediaHelper;
@@ -54,7 +53,7 @@ public class MindStaffItem extends Item {
         }
     }
 
-    public static void setCanStore(@NotNull ItemStack stack, boolean canStore) {
+    public static void setCanStore(@NotNull ItemStack stack) {
         CompoundTag tag = stack.getOrCreateTag();
         tag.putBoolean(TAG_CAN_STORE, true);
     }
@@ -92,6 +91,7 @@ public class MindStaffItem extends Item {
         return requested - paid;
     }
 
+    @SuppressWarnings("unused")
     public static long insertStoredMedia(ItemStack stack, long amount, boolean simulate) {
         long stored = getStoredMedia(stack);
         long last_max = getMaxMedia(stack);
@@ -128,7 +128,7 @@ public class MindStaffItem extends Item {
     public boolean onBlockStartBreak(ItemStack stack, BlockPos pos, Player player) {
         if (!player.level().isClientSide()) {
             player.displayClientMessage(Component.literal("success transformed"), true);
-            setCanStore(stack, true);
+            setCanStore(stack);
         }
         return true;
     }
@@ -171,7 +171,7 @@ public class MindStaffItem extends Item {
                 ListTag patternsTag = player.getPersistentData().getList(TAG_PATTERNS, Tag.TAG_COMPOUND);
 
                 Pair<List<CompoundTag>, CompoundTag> descs = vm.generateDescs();
-                IXplatAbstractions.INSTANCE.sendPacketToPlayer(serverPlayer, new MsgOpenSpellGuiS2C(hand, new ArrayList<ResolvedPattern>(patternsTag.size()), descs.getFirst(), descs.getSecond(), 0));
+                IXplatAbstractions.INSTANCE.sendPacketToPlayer(serverPlayer, new MsgOpenSpellGuiS2C(hand, new ArrayList<>(patternsTag.size()), descs.getFirst(), descs.getSecond(), 0));
             }
 
             player.awardStat(Stats.ITEM_USED.get(this));
