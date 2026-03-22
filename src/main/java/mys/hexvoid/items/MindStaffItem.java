@@ -17,18 +17,23 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.chat.TextColor;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.stats.Stats;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,6 +44,15 @@ public class MindStaffItem extends Item {
     public static final String TAG_MEDIA = "storedMedia";
     public static final String TAG_LAST_MAX_MEDIA = "lastMaxMedia";
     public static final String TAG_CAN_STORE = "canStoreMedia";
+
+    public static final TextColor HEX_COLOR = TextColor.fromRgb(11767539);
+    private static final DecimalFormat PERCENTAGE = new DecimalFormat("####");
+    private static final DecimalFormat DUST_AMOUNT;
+
+    static {
+        PERCENTAGE.setRoundingMode(RoundingMode.DOWN);
+        DUST_AMOUNT = new DecimalFormat("###,###.##");
+    }
 
     public MindStaffItem(Properties pProperties) {
         super(pProperties);
@@ -185,11 +199,26 @@ public class MindStaffItem extends Item {
     }
 
     @Override
-    public @NotNull ItemStack finishUsingItem(@NotNull ItemStack stack, @NotNull Level level, @NotNull LivingEntity entity) {
-        if (canStore(stack)) return super.finishUsingItem(stack, level, entity);
-        var stackReturn = stack.copy();
-        stackReturn.shrink(1);
-        return super.finishUsingItem(stackReturn, level, entity);
+    public void appendHoverText(@NotNull ItemStack stack, @Nullable Level pLevel, @NotNull List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
+        long maxMedia = getMaxMedia(stack);
+        if (maxMedia > 0L) {
+            long media = getStoredMedia(stack);
+            float fullness = this.getMediaFullness(stack);
+            TextColor color = TextColor.fromRgb(MediaHelper.mediaBarColor(media, maxMedia));
+            MutableComponent mediamount = Component.literal(DUST_AMOUNT.format((float) media / 10000.0F));
+            MutableComponent percentFull = Component.literal(PERCENTAGE.format(100.0F * fullness) + "%");
+            MutableComponent maxCapacity = Component.translatable("hexcasting.tooltip.media", DUST_AMOUNT.format((float) maxMedia / 10000.0F));
+            mediamount.withStyle((style) -> style.withColor(HEX_COLOR));
+            maxCapacity.withStyle((style) -> style.withColor(HEX_COLOR));
+            percentFull.withStyle((style) -> style.withColor(color));
+            pTooltipComponents.add(Component.translatable("hexvoid.tooltip.media_amount", mediamount, maxCapacity, percentFull));
+        }
+
+        super.appendHoverText(stack, pLevel, pTooltipComponents, pIsAdvanced);
+    }
+
+    private float getMediaFullness(ItemStack stack) {
+        return getMaxMedia(stack) == 0L ? 0.0F : (float) getStoredMedia(stack) / getMaxMedia(stack);
     }
 
     @Override

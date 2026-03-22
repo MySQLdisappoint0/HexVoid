@@ -31,6 +31,8 @@
   "hexvoid.msg.spell.cos": "你忽然感觉自己的身体消失了，随即你意识到是载体已不再存在于世界，高维的存在已抹杀了作探针的身体...",
   "hexvoid.msg.spell.ctv.pos": "...貌似不起作用？大概是深度对不上吧...",
   "hexvoid.msg.spell.ctv.block": "...貌似不起作用？大概是方块对不上吧...",
+  // others
+  "hexvoid.tooltip.media_amount": "含有: %s/%s (%s)",
   // patchouli book
   // category descriptions
   "hexvoid.category.research": "虚咒残卷",
