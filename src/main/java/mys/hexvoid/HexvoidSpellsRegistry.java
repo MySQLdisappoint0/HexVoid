@@ -10,6 +10,7 @@ import mys.hexvoid.casting.action.OpCallOfSilent;
 import mys.hexvoid.casting.action.OpCalledBoom;
 import mys.hexvoid.casting.action.OpChannelToVoid;
 import mys.hexvoid.casting.action.OpClearDraws;
+import mys.hexvoid.casting.action.OpWeavingMedia;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
 
@@ -22,8 +23,9 @@ public class HexvoidSpellsRegistry {
     // Define spells
     public static final ActionRegistryEntry OP_CALLED_BOOM = HexvoidSpellsObject.register("op_called_boom", "qqqeqqqeqqqwqqqqq", HexDir.EAST, new OpCalledBoom());
     public static final ActionRegistryEntry OP_CALL_OF_SILENT = HexvoidSpellsObject.register("op_call_of_silent", "wwwawwwawwaadaddadaddadada", HexDir.EAST, new OpCallOfSilent());
-    public static final ActionRegistryEntry OP_CHANNEL_TO_VOID = HexvoidSpellsObject.register("channel_to_void", "wwwedwwww", HexDir.EAST, new OpChannelToVoid());
+    public static final ActionRegistryEntry OP_CHANNEL_TO_VOID = HexvoidSpellsObject.register("channel_to_void", "edewwqwawqwqwawddewweddwaw", HexDir.EAST, new OpChannelToVoid());
     public static final ActionRegistryEntry OP_CLEAR_DRAWS = HexvoidSpellsObject.register("clear_draws", "dwaawaawd", HexDir.NORTH_EAST, new OpClearDraws());
+    public static final ActionRegistryEntry OP_WEAVING_MEDIA = HexvoidSpellsObject.register("weaving_media", "dwdaeeadwdaeeadwdaeeewwdwdwwdwdwwdw", HexDir.EAST, new OpWeavingMedia());
 
     // "wwqwwawwqwwqwwqwwqwwqwweawwwqwwwwawwwwqwwwwdwwwwewwwwewwwwewwwdwwwwqwwwdwwewwwewwwewwewwwewewwwewewewweweewwwwdqdwwwedwwww" is that cast(?)...
 

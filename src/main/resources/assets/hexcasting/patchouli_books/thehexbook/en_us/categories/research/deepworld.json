@@ -1,0 +1,8 @@
+{
+  "name": "hexvoid.category.research.deepworld",
+  "icon": "minecraft:bedrock",
+  "description": "hexvoid.category.deepworld.desc",
+  "parent": "hexcasting:research",
+  "advancement": "hexvoid:deepworld",
+  "sortnum": 0
+}

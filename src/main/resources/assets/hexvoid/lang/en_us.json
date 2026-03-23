@@ -31,12 +31,15 @@
   "hexvoid.msg.spell.cos": "你忽然感觉自己的身体消失了，随即你意识到是载体已不再存在于世界，高维的存在已抹杀了作探针的身体...",
   "hexvoid.msg.spell.ctv.pos": "...貌似不起作用？大概是深度对不上吧...",
   "hexvoid.msg.spell.ctv.block": "...貌似不起作用？大概是方块对不上吧...",
+  "hexvoid.msg.spell.wm": "可织入媒质的物品",
   // others
   "hexvoid.tooltip.media_amount": "含有: %s/%s (%s)",
   // patchouli book
   // category descriptions
   "hexvoid.category.research": "虚咒残卷",
   "hexvoid.category.research.desc": "我有幸发现了一些古代的某些咒术师留下的研究手稿，不幸的是其中大部分都难以辨认，幸运的是有一部分可以直接辨读出来，而且似乎这就是研究的开头部分，不过手稿所记录的内容看起来貌似非常...反常识?",
+  "hexvoid.category.research.deepworld": "世界深处",
+  "hexvoid.category.deepworld.desc": "花了好长的时间来辨认，貌似这就是手稿的开头了，记述了一些关于世界深处的研究内容",
   // entries
   "hexvoid.entry.deepworld": "世界深处",
   "hexvoid.entry.enlightening_apple": "启迪禁果",

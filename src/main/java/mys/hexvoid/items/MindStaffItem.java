@@ -12,7 +12,6 @@ import at.petrak.hexcasting.common.msgs.MsgOpenSpellGuiS2C;
 import at.petrak.hexcasting.xplat.IXplatAbstractions;
 import kotlin.Pair;
 import mys.hexvoid.casting.vm.MindStaffEnv;
-import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
@@ -138,15 +137,6 @@ public class MindStaffItem extends Item {
             setMaxMedia(staff, getStoredMedia(staff) + extracted);
     }
 
-    @Override
-    public boolean onBlockStartBreak(ItemStack stack, BlockPos pos, Player player) {
-        if (!player.level().isClientSide()) {
-            player.displayClientMessage(Component.literal("success transformed"), true);
-            setCanStore(stack);
-        }
-        return true;
-    }
-
     public @NotNull InteractionResultHolder<ItemStack> use(@NotNull Level world, Player player, @NotNull InteractionHand hand) {
         if (player.getAttributeValue(HexAttributes.FEEBLE_MIND) > (double) 0.0F) {
             return InteractionResultHolder.fail(player.getItemInHand(hand));
@@ -200,20 +190,21 @@ public class MindStaffItem extends Item {
 
     @Override
     public void appendHoverText(@NotNull ItemStack stack, @Nullable Level pLevel, @NotNull List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
-        long maxMedia = getMaxMedia(stack);
-        if (maxMedia > 0L) {
-            long media = getStoredMedia(stack);
-            float fullness = this.getMediaFullness(stack);
-            TextColor color = TextColor.fromRgb(MediaHelper.mediaBarColor(media, maxMedia));
-            MutableComponent mediamount = Component.literal(DUST_AMOUNT.format((float) media / 10000.0F));
-            MutableComponent percentFull = Component.literal(PERCENTAGE.format(100.0F * fullness) + "%");
-            MutableComponent maxCapacity = Component.translatable("hexcasting.tooltip.media", DUST_AMOUNT.format((float) maxMedia / 10000.0F));
-            mediamount.withStyle((style) -> style.withColor(HEX_COLOR));
-            maxCapacity.withStyle((style) -> style.withColor(HEX_COLOR));
-            percentFull.withStyle((style) -> style.withColor(color));
-            pTooltipComponents.add(Component.translatable("hexvoid.tooltip.media_amount", mediamount, maxCapacity, percentFull));
+        if (canStore(stack)) {
+            long maxMedia = getMaxMedia(stack);
+            if (maxMedia > 0L) {
+                long media = getStoredMedia(stack);
+                float fullness = this.getMediaFullness(stack);
+                TextColor color = TextColor.fromRgb(MediaHelper.mediaBarColor(media, maxMedia));
+                MutableComponent mediamount = Component.literal(DUST_AMOUNT.format((float) media / 10000.0F));
+                MutableComponent percentFull = Component.literal(PERCENTAGE.format(100.0F * fullness) + "%");
+                MutableComponent maxCapacity = Component.translatable("hexcasting.tooltip.media", DUST_AMOUNT.format((float) maxMedia / 10000.0F));
+                mediamount.withStyle((style) -> style.withColor(HEX_COLOR));
+                maxCapacity.withStyle((style) -> style.withColor(HEX_COLOR));
+                percentFull.withStyle((style) -> style.withColor(color));
+                pTooltipComponents.add(Component.translatable("hexvoid.tooltip.media_amount", mediamount, maxCapacity, percentFull));
+            }
         }
-
         super.appendHoverText(stack, pLevel, pTooltipComponents, pIsAdvanced);
     }
 

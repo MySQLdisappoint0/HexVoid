@@ -1,6 +1,6 @@
 {
   "name": "hexvoid.entry.deepworld",
-  "category": "hexcasting:research",
+  "category": "hexcasting:research/deepworld",
   "icon": "minecraft:bedrock",
   "sortnum": 0,
   "advancement": "hexvoid:lore/research",
