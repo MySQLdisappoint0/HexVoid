@@ -1,6 +1,6 @@
 {
   "name": "hexvoid.entry.calledboom",
-  "category": "hexcasting:research",
+  "category": "hexcasting:catalog",
   "icon": "minecraft:tnt",
   "sortnum": 4,
   "advancement": "hexvoid:findbroken",

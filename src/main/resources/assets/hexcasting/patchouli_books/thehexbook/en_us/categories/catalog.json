@@ -1,0 +1,7 @@
+{
+  "name": "hexvoid.category.catalog",
+  "icon": "minecraft:globe_banner_pattern",
+  "description": "hexvoid.category.catalog.desc",
+  "advancement": "hexvoid:lore/research",
+  "sortnum": 10
+}

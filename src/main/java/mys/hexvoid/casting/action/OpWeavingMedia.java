@@ -10,6 +10,7 @@ import at.petrak.hexcasting.api.casting.eval.vm.SpellContinuation;
 import at.petrak.hexcasting.api.casting.iota.Iota;
 import at.petrak.hexcasting.api.casting.mishaps.Mishap;
 import at.petrak.hexcasting.api.casting.mishaps.MishapBadEntity;
+import at.petrak.hexcasting.api.casting.mishaps.MishapBadItem;
 import at.petrak.hexcasting.api.misc.MediaConstants;
 import mys.hexvoid.items.HexvoidItems;
 import mys.hexvoid.items.MindStaffItem;
@@ -43,9 +44,13 @@ public class OpWeavingMedia implements SpellAction {
         Entity entity = OperatorUtils.getEntity(args, 0, getArgc());
         if (entity instanceof ItemEntity item && item.getItem().is(HexvoidItems.mind_staff.get())) {
             var stack = item.getItem();
-            MindStaffItem.setCanStore(stack);
-            item.setItem(stack);
-        } else throw new MishapBadEntity(entity, Component.translatable("item.hexvoid.mind_staff"));
+            if (MindStaffItem.canStore(stack)) {
+                throw new MishapBadItem(item, Component.translatable("hexvoid.msg.spell.wm"));
+            } else {
+                MindStaffItem.setCanStore(stack);
+                item.setItem(stack);
+            }
+        } else throw new MishapBadEntity(entity, Component.translatable("hexvoid.msg.spell.wm"));
         return new Result(new Spell(), MediaConstants.CRYSTAL_UNIT * 10, List.of(), 0);
     }
 
@@ -62,7 +67,6 @@ public class OpWeavingMedia implements SpellAction {
     private static class Spell implements RenderedSpell {
         @Override
         public void cast(@NotNull CastingEnvironment castingEnvironment) {
-
         }
 
         @Override

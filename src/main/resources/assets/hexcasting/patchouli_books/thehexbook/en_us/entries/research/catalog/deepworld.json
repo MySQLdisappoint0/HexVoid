@@ -1,13 +1,13 @@
 {
   "name": "hexvoid.entry.deepworld",
-  "category": "hexcasting:research/deepworld",
+  "category": "hexcasting:catalog",
   "icon": "minecraft:bedrock",
   "sortnum": 0,
   "advancement": "hexvoid:lore/research",
   "pages": [
     {
       "type": "patchouli:text",
-      "text": "hexvoid.page.research.deepworld"
+      "text": "hexvoid.page.catalog.deepworld"
     },
     {
       "type": "hexcasting:pattern",

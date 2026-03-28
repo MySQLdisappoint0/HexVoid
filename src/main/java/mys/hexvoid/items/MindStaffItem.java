@@ -11,6 +11,7 @@ import at.petrak.hexcasting.common.msgs.MsgClearSpiralPatternsS2C;
 import at.petrak.hexcasting.common.msgs.MsgOpenSpellGuiS2C;
 import at.petrak.hexcasting.xplat.IXplatAbstractions;
 import kotlin.Pair;
+import mys.hexvoid.Hexvoid;
 import mys.hexvoid.casting.vm.MindStaffEnv;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
@@ -85,7 +86,10 @@ public class MindStaffItem extends Item {
 
     public static void setStoredMedia(ItemStack stack, long media) {
         CompoundTag tag = stack.getOrCreateTag();
-        tag.putLong(TAG_MEDIA, media);
+        if (Long.MAX_VALUE - getStoredMedia(stack) < media)
+            tag.putLong(TAG_MEDIA, Long.MAX_VALUE);
+        else
+            tag.putLong(TAG_MEDIA, media);
     }
 
     public static void setMaxMedia(ItemStack stack, long media) {
@@ -129,8 +133,9 @@ public class MindStaffItem extends Item {
         ADMediaHolder holder = IXplatAbstractions.INSTANCE.findMediaHolder(source);
         if (holder == null || !holder.canProvide()) return;
 
-        long extracted = MediaHelper.extractMedia(source);
+        long extracted = MediaHelper.extractMedia(source, Long.MAX_VALUE - getStoredMedia(staff));
         if (extracted <= 0) return;
+
 
         setStoredMedia(staff, getStoredMedia(staff) + extracted);
         if (getStoredMedia(staff) + extracted > getMaxMedia(staff))
@@ -149,7 +154,21 @@ public class MindStaffItem extends Item {
                     tag.putInt("Damage", (int) (getStoredMedia(staff) / getMaxMedia(staff)));
                 }
                 var stackAnother = player.getItemInHand(getAnotherHand(hand));
-                tryStore(stackAnother, staff);
+
+                var holder = IXplatAbstractions.INSTANCE.findMediaHolder(stackAnother);
+                boolean hasMedia;
+                if (holder == null)
+                    hasMedia = false;
+                else
+                    hasMedia = (holder.canProvide() || MediaHelper.extractMedia(stackAnother, 0L, false, true) > 0);
+                Hexvoid.LOGGER.debug(String.valueOf(hasMedia));
+                if (hasMedia && getStoredMedia(staff) < Long.MAX_VALUE) {
+                    tryStore(stackAnother, staff);
+                    return InteractionResultHolder.success(player.getItemInHand(hand));
+                } else if (hasMedia && getStoredMedia(staff) == Long.MAX_VALUE) {
+                    player.displayClientMessage(Component.translatable("hexvoid.msg.item.mind_staff.store"), true);
+                    return InteractionResultHolder.fail(player.getItemInHand(hand));
+                }
             }
 
             if (player.isShiftKeyDown()) {

@@ -14,7 +14,7 @@ public class HexvoidTags {
 
     // advancements
     public static final ResourceLocation ADV_LORE_RESEARCH = Hexvoid.ModLoc("lore/research");
-    public static final ResourceLocation ADV_DEEPWORLD = Hexvoid.ModLoc("deepworld");
+    public static final ResourceLocation ADV_DEEPWORLD = Hexvoid.ModLoc("research");
     public static final ResourceLocation ADV_FIND_BROKEN = Hexvoid.ModLoc("findbroken");
     public static final ResourceLocation ADV_EXCHANGE_LIFE = Hexvoid.ModLoc("exchangelife");
 }

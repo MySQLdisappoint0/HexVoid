@@ -1,7 +1,7 @@
 {
   "name": "hexvoid.entry.mind_staff",
   "icon": "hexvoid:mind_staff",
-  "category": "hexcasting:research",
+  "category": "hexcasting:catalog",
   "priority": true,
   "sortnum": 2,
   "advancement": "hexvoid:lore/research",
