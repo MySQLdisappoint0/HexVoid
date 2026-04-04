@@ -149,10 +149,6 @@ public class MindStaffItem extends Item {
 
             if (canStore(player.getItemInHand(hand))) {
                 var staff = player.getItemInHand(hand);
-                var tag = staff.getOrCreateTag();
-                if (tag.contains(TAG_MEDIA)) {
-                    tag.putInt("Damage", (int) (getStoredMedia(staff) / getMaxMedia(staff)));
-                }
                 var stackAnother = player.getItemInHand(getAnotherHand(hand));
 
                 var holder = IXplatAbstractions.INSTANCE.findMediaHolder(stackAnother);
@@ -160,7 +156,7 @@ public class MindStaffItem extends Item {
                 if (holder == null)
                     hasMedia = false;
                 else
-                    hasMedia = (holder.canProvide() || MediaHelper.extractMedia(stackAnother, 0L, false, true) > 0);
+                    hasMedia = (holder.canProvide() && MediaHelper.extractMedia(stackAnother, Long.MAX_VALUE - getStoredMedia(staff), false, true) > 0);
                 Hexvoid.LOGGER.debug(String.valueOf(hasMedia));
                 if (hasMedia && getStoredMedia(staff) < Long.MAX_VALUE) {
                     tryStore(stackAnother, staff);
@@ -168,6 +164,14 @@ public class MindStaffItem extends Item {
                 } else if (hasMedia && getStoredMedia(staff) == Long.MAX_VALUE) {
                     player.displayClientMessage(Component.translatable("hexvoid.msg.item.mind_staff.store"), true);
                     return InteractionResultHolder.fail(player.getItemInHand(hand));
+                }
+
+                if (getStoredMedia(staff) > getMaxMedia(staff)) {
+                    if (getStoredMedia(staff) * 1.2 > Long.MAX_VALUE) {
+                        setMaxMedia(staff, (long) (Long.MAX_VALUE - (Long.MAX_VALUE - getStoredMedia(staff)) * 0.3));
+                    } else {
+                        setMaxMedia(staff, (long) (getStoredMedia(staff) * 1.2));
+                    }
                 }
             }
 

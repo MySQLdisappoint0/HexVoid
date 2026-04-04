@@ -53,6 +53,7 @@
   "hexvoid.entry.legacy_of_vanished": "消泯者残遗",
   // pages
   //research
+  "hexvoid.entry.research.deepworld": "世界深处",
   "hexvoid.page.research.deepworld": "我发现了一些奇怪的研究，它们似乎，或者说看起来非常荒谬，我不确定它们的真实性。不过上面提到了一种特殊的法术，可以使我得知一些世界深处的秘密，但这似乎$(c)$(o)非常危险$()",
   "hexvoid.page.research.legacy_of_vanished": "",
   //catalog

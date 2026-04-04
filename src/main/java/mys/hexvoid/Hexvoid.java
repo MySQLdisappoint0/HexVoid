@@ -4,15 +4,14 @@ import at.petrak.hexcasting.common.lib.HexCreativeTabs;
 import at.petrak.hexcasting.common.lib.HexRegistries;
 import com.mojang.logging.LogUtils;
 import mys.hexvoid.block.HexvoidBlocks;
+import mys.hexvoid.datagen.LootModifiersRegistry;
 import mys.hexvoid.items.HexvoidItems;
 import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
-import net.minecraftforge.event.entity.living.LivingDamageEvent;
 import net.minecraftforge.event.server.ServerStartingEvent;
-import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -41,9 +40,8 @@ public class Hexvoid {
         modEventBus.addListener(this::addCreative);
         modEventBus.addListener(this::onRegister);
 
-        MinecraftForge.EVENT_BUS.addListener(EventPriority.LOWEST, (LivingDamageEvent event) -> {
-
-        });
+        // this registry is from datagen part
+        LootModifiersRegistry.register(modEventBus);
     }
 
     public static ResourceLocation ModLoc(String path) {

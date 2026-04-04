@@ -14,12 +14,12 @@ public class DataGenerators {
     public static void gatherData(GatherDataEvent event) {
         var generator = event.getGenerator();
         var output = generator.getPackOutput();
-        var datapackProvider = new RegistryDataGenerator(output,event.getLookupProvider());
+        var datapackProvider = new RegistryDataGenerator(output, event.getLookupProvider());
         var lookupProvider = datapackProvider.getRegistryProvider();
         var existingFileHelper = event.getExistingFileHelper();
 
         // datapack registry things
-        generator.addProvider(event.includeServer(),datapackProvider);
+        generator.addProvider(event.includeServer(), datapackProvider);
 
         // advancements
         generator.addProvider(event.includeServer(), new ForgeAdvancementProvider(
@@ -34,6 +34,12 @@ public class DataGenerators {
                 output,
                 lookupProvider,
                 existingFileHelper
+        ));
+
+        // loot tables
+        generator.addProvider(event.includeServer(), new GlobalLootModifierGenerator(
+                output,
+                Hexvoid.MODID
         ));
     }
 }

@@ -1,7 +1,0 @@
-// 1.20.1	2026-03-21T17:43:59.8371805	Tags for minecraft:damage_type mod id hexvoid
-08f9260103addba75d0943427ea630f34894723e data/minecraft/tags/damage_type/bypasses_armor.json
-08f9260103addba75d0943427ea630f34894723e data/minecraft/tags/damage_type/bypasses_cooldown.json
-08f9260103addba75d0943427ea630f34894723e data/minecraft/tags/damage_type/bypasses_effects.json
-08f9260103addba75d0943427ea630f34894723e data/minecraft/tags/damage_type/bypasses_enchantments.json
-08f9260103addba75d0943427ea630f34894723e data/minecraft/tags/damage_type/bypasses_invulnerability.json
-08f9260103addba75d0943427ea630f34894723e data/minecraft/tags/damage_type/bypasses_resistance.json

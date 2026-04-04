@@ -16,16 +16,16 @@ import net.minecraft.resources.ResourceLocation;
 
 import java.util.Map;
 
-@SuppressWarnings("unused")
+@SuppressWarnings({"unused", "SpellCheckingInspection"})
 public class HexvoidSpellsRegistry {
     static Map<ResourceLocation, ActionRegistryEntry> CACHED = new java.util.HashMap<>();
 
     // Define spells
     public static final ActionRegistryEntry OP_CALLED_BOOM = HexvoidSpellsObject.register("op_called_boom", "qqqeqqqeqqqwqqqqq", HexDir.EAST, new OpCalledBoom());
     public static final ActionRegistryEntry OP_CALL_OF_SILENT = HexvoidSpellsObject.register("op_call_of_silent", "wwwawwwawwaadaddadaddadada", HexDir.EAST, new OpCallOfSilent());
-    public static final ActionRegistryEntry OP_CHANNEL_TO_VOID = HexvoidSpellsObject.register("channel_to_void", "edewwqwawqwqwawddewweddwaw", HexDir.EAST, new OpChannelToVoid());
+    public static final ActionRegistryEntry OP_CHANNEL_TO_VOID = HexvoidSpellsObject.register("channel_to_void", "edewwqwawqwqwawddewweddwaw", HexDir.NORTH_WEST, new OpChannelToVoid());
     public static final ActionRegistryEntry OP_CLEAR_DRAWS = HexvoidSpellsObject.register("clear_draws", "dwaawaawd", HexDir.NORTH_EAST, new OpClearDraws());
-    public static final ActionRegistryEntry OP_WEAVING_MEDIA = HexvoidSpellsObject.register("weaving_media", "dwdaeeadwdaeeadwdaeeewwdwdwwdwdwwdw", HexDir.EAST, new OpWeavingMedia());
+    public static final ActionRegistryEntry OP_WEAVING_MEDIA = HexvoidSpellsObject.register("weaving_media", "dwdaeeadwdaeeadwdaeeewwdwdwwdwdwwdw", HexDir.NORTH_WEST, new OpWeavingMedia());
 
     // "wwqwwawwqwwqwwqwwqwwqwweawwwqwwwwawwwwqwwwwdwwwwewwwwewwwwewwwdwwwwqwwwdwwewwwewwwewwewwwewewwwewewewweweewwwwdqdwwwedwwww" is that cast(?)...
 
