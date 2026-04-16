@@ -69,13 +69,14 @@ public class Hexvoid {
     private void addCreative(BuildCreativeModeTabContentsEvent event) {
         if (event.getTab() == HexCreativeTabs.HEX) {
             // items
-            event.accept(HexvoidItems.test_item);
-            event.accept(HexvoidItems.enlightening_apple);
-            event.accept(HexvoidItems.lore_fragment);
-            event.accept(HexvoidItems.mind_staff);
-
+            if (!HexvoidItems.RegisteredItems.isEmpty()) {
+                for (var item : HexvoidItems.RegisteredItems) event.accept(item);
+            } else {
+                throw new IllegalArgumentException();
+            }
             // block items
-            event.accept(HexvoidBlocks.test_block.get());
+            // merge to 'items' register
+            //event.accept(HexvoidBlocks.test_block.get());
         }
     }
 

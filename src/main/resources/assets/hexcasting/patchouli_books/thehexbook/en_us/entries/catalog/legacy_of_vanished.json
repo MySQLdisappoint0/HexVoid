@@ -1,0 +1,13 @@
+{
+  "name": "hexvoid.entry.legacy_of_vanished",
+  "category": "hexcasting:catalog",
+  "icon": "minecraft:bedrock",
+  "sortnum": 5,
+  "advancement": "hexvoid:deepworld",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "hexvoid.page.research.legacy_of_vanished"
+    }
+  ]
+}

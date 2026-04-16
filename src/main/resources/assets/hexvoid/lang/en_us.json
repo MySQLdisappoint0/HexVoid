@@ -38,8 +38,8 @@
   "hexvoid.tooltip.media_amount": "含有: %s/%s (%s)",
   // patchouli book
   // category descriptions
-  "hexvoid.category.research": "虚咒残卷",
-  "hexvoid.category.catalog": "虚咒残卷",
+  "hexvoid.category.research": "虚咒残卷-探索历程",
+  "hexvoid.category.catalog": "虚咒残卷-总目录",
   "hexvoid.category.research.desc": "我有幸发现了一些古代的某些咒术师留下的研究手稿，不幸的是其中大部分都难以辨认，幸运的是有一部分可以直接辨读出来，而且似乎这就是研究的开头部分，不过手稿所记录的内容看起来貌似非常...反常识?",
   "hexvoid.category.catalog.desc": "这是已破译的研究手稿的总目录，在此可以找到所有已记录的手稿内容",
   "hexvoid.category.research.deepworld": "世界深处",

@@ -9,11 +9,15 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
+import java.util.ArrayList;
 import java.util.function.Supplier;
 
 
 public class HexvoidItems {
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, Hexvoid.MODID);
+    
+    public static ArrayList<RegistryObject<Item>> RegisteredItems = new ArrayList<>();
+
     public static final RegistryObject<Item> test_item = wrap("test_item", () -> new Item(new Item.Properties()));
     public static final RegistryObject<Item> enlightening_apple = wrap("enlightening_apple", () ->
             new EnlighteningAppleItem(
@@ -45,7 +49,9 @@ public class HexvoidItems {
     );
 
     private static RegistryObject<Item> wrap(String regName, Supplier<Item> supplier) {
-        return ITEMS.register(regName, supplier);
+        var item = ITEMS.register(regName, supplier);
+        RegisteredItems.add(item);
+        return item;
     }
 
     public static void register(IEventBus bus) {

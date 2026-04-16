@@ -1,6 +1,6 @@
 {
   "name": "hexvoid.category.research",
-  "icon": "minecraft:globe_banner_pattern",
+  "icon": "hexvoid:lore_fragment",
   "description": "hexvoid.category.research.desc",
   "advancement": "hexvoid:lore/research",
   "sortnum": 9
