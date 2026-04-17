@@ -2,10 +2,14 @@
   // items
   "item.hexvoid.test_item": "测试物品",
   "item.hexvoid.enlightening_apple": "启迪禁果",
+  "item.hexvoid.enlightening_apple.weaved": "启迪苹果",
   "item.hexvoid.lore_fragment": "虚咒残卷",
   "item.hexvoid.mind_staff": "凝识法杖",
   // blocks
   "block.hexvoid.test_block": "测试方块",
+  // tooltip
+  "tooltip.hexvoid.lightening_apple.1": "制造完全的产物，已趋于完美",
+  "tooltip.hexvoid.lightening_apple.2": "无副作用地获得彼端的知识",
   // advancement
   "advancement.hexvoid:lore/research": "虚咒残卷",
   "advancement.hexvoid:lore/research.desc": "找到虚咒残卷",

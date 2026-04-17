@@ -10,20 +10,37 @@ import at.petrak.hexcasting.api.casting.eval.vm.SpellContinuation;
 import at.petrak.hexcasting.api.casting.iota.Iota;
 import at.petrak.hexcasting.api.casting.mishaps.Mishap;
 import at.petrak.hexcasting.api.casting.mishaps.MishapBadEntity;
-import at.petrak.hexcasting.api.casting.mishaps.MishapBadItem;
 import at.petrak.hexcasting.api.misc.MediaConstants;
+import mys.hexvoid.helper.onWeaving;
+import mys.hexvoid.items.EnlighteningAppleItem;
 import mys.hexvoid.items.HexvoidItems;
 import mys.hexvoid.items.MindStaffItem;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.item.Item;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
 public class OpWeavingMedia implements SpellAction {
+    private static void weaveOrThrow(@NotNull ItemEntity itemEntity, @NotNull Item targetItem, @NotNull onWeaving weaveAction, boolean isLastMatch) {
+        var stack = itemEntity.getItem();
+        if (!stack.is(targetItem)) {
+            if (!isLastMatch) return;
+            else throwMishap(itemEntity);
+            return;
+        }
+        weaveAction.weave(stack);
+        itemEntity.setItem(stack);
+    }
+
+    private static void throwMishap(Entity entity) {
+        throw new MishapBadEntity(entity, Component.translatable("hexvoid.msg.spell.wm"));
+    }
+
     @Override
     public int getArgc() {
         return 1;
@@ -41,16 +58,13 @@ public class OpWeavingMedia implements SpellAction {
 
     @Override
     public @NotNull Result execute(@NotNull List<? extends Iota> args, @NotNull CastingEnvironment castingEnvironment) throws Mishap {
-        Entity entity = OperatorUtils.getEntity(args, 0, getArgc());
-        if (entity instanceof ItemEntity item && item.getItem().is(HexvoidItems.mind_staff.get())) {
-            var stack = item.getItem();
-            if (MindStaffItem.canStore(stack)) {
-                throw new MishapBadItem(item, Component.translatable("hexvoid.msg.spell.wm"));
-            } else {
-                MindStaffItem.setCanStore(stack);
-                item.setItem(stack);
-            }
-        } else throw new MishapBadEntity(entity, Component.translatable("hexvoid.msg.spell.wm"));
+        var entity = OperatorUtils.getEntity(args, 0, getArgc());
+        if (entity instanceof ItemEntity item) {
+            // mind staff
+            weaveOrThrow(item, HexvoidItems.mind_staff.get(), MindStaffItem::setCanStore, false);
+            // enlightening apple
+            weaveOrThrow(item, HexvoidItems.enlightening_apple.get(), EnlighteningAppleItem::madeWeaved, true);
+        } else throwMishap(entity);
         return new Result(new Spell(), MediaConstants.CRYSTAL_UNIT * 10, List.of(), 0);
     }
 

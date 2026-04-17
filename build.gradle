@@ -135,7 +135,7 @@ dependencies {
     implementation fg.deobf("maven.modrinth:patchouli:1.20.1-85-forge")
     implementation fg.deobf("maven.modrinth:cloth-config:11.1.136+forge")
     implementation fg.deobf("com.samsthenerd.inline:inline-forge:1.20.1-1.2.2")
-    implementation fg.deobf("maven.modrinth:hexParse:1.20.1-1.9.0-forge")
+    implementation fg.deobf("maven.modrinth:hexParse:1.20.1-${hexparse_version}-forge")
 
     annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
 }

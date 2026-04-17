@@ -59,7 +59,7 @@ public class OpCallOfSilent implements SpellAction {
             if (entity != null) {
                 if (entity instanceof ServerPlayer serverPlayer) {
                     serverPlayer.getInventory().dropAll();
-                    serverPlayer.displayClientMessage(Component.translatable("hexvoid.msg.spell.cos").withStyle(ChatFormatting.RED), true);
+                    serverPlayer.displayClientMessage(Component.translatable("hexvoid.msg.spell.cos").withStyle(ChatFormatting.RED), false);
                     entity.remove(Entity.RemovalReason.KILLED);
                 } else {
                     entity.die(DamageSources.buildDamage(entity, DamageTypes.CALL_OF_SILENT));

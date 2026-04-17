@@ -64,9 +64,6 @@ public final class OpCalledBoom implements SpellAction {
         // 法术消耗
         long cost = MediaConstants.DUST_UNIT ^ 2;
 
-        // 创建 Spell 实例
-
-
         // 创建粒子效果列表
         var particles = List.of(ParticleSpray.burst(pos, strength, 50));
 
@@ -160,7 +157,6 @@ public final class OpCalledBoom implements SpellAction {
         }
 
         // 手动实现 equals, hashCode, toString
-        // 真是Companion的神秘之处啊（）
         @Override
         public boolean equals(@Nullable Object other) {
             if (this == other) {
