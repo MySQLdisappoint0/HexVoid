@@ -1,6 +1,7 @@
 package mys.hexvoid.items;
 
 import at.petrak.hexcasting.common.lib.HexSounds;
+import mys.hexvoid.HexvoidUtils;
 import mys.hexvoid.item.tags.HexvoidTags;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
@@ -25,14 +26,10 @@ public class LoreFragmentItem extends Item {
         if (!level.isClientSide()) {
             if (level instanceof ServerLevel serverlevel) {
                 if (player instanceof ServerPlayer serverPlayer) {
-                    var playerAdvs = serverPlayer.getAdvancements();
-                    var adv = serverlevel.getServer().getAdvancements().getAdvancement(HexvoidTags.ADV_LORE_RESEARCH);
-                    if (adv != null) {
-                        var isAwarded = playerAdvs.award(adv, HexvoidTags.ADV_CRITERION_GRANT);
-                        if (!isAwarded) {
-                            serverPlayer.displayClientMessage(Component.translatable("hexvoid.msg.item.lore_fragment"), true);
-                            serverPlayer.giveExperiencePoints(20);
-                        }
+                    var isAwarded = HexvoidUtils.awardAdvancement(serverPlayer, serverlevel, HexvoidTags.ADV_LORE_RESEARCH, HexvoidTags.ADV_CRITERION_GRANT);
+                    if (isAwarded == 1) {
+                        serverPlayer.displayClientMessage(Component.translatable("hexvoid.msg.item.lore_fragment"), true);
+                        serverPlayer.giveExperiencePoints(20);
                     }
                 }
             }

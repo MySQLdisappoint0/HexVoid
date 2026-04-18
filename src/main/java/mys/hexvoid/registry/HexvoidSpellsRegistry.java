@@ -1,10 +1,11 @@
-package mys.hexvoid;
+package mys.hexvoid.registry;
 
 import at.petrak.hexcasting.api.casting.ActionRegistryEntry;
 import at.petrak.hexcasting.api.casting.castables.Action;
 import at.petrak.hexcasting.api.casting.math.HexDir;
 import at.petrak.hexcasting.api.casting.math.HexPattern;
 import at.petrak.hexcasting.common.lib.hex.HexActions;
+import mys.hexvoid.Hexvoid;
 import mys.hexvoid.casting.action.HexvoidSpellsObject;
 import mys.hexvoid.casting.action.OpCallOfSilent;
 import mys.hexvoid.casting.action.OpCalledBoom;
@@ -16,7 +17,7 @@ import net.minecraft.resources.ResourceLocation;
 
 import java.util.Map;
 
-@SuppressWarnings({"unused", "SpellCheckingInspection"})
+@SuppressWarnings("unused")
 public class HexvoidSpellsRegistry {
     static Map<ResourceLocation, ActionRegistryEntry> CACHED = new java.util.HashMap<>();
 

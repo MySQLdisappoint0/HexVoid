@@ -17,4 +17,8 @@ public class HexvoidTags {
     public static final ResourceLocation ADV_DEEPWORLD = Hexvoid.ModLoc("research");
     public static final ResourceLocation ADV_FIND_BROKEN = Hexvoid.ModLoc("findbroken");
     public static final ResourceLocation ADV_EXCHANGE_LIFE = Hexvoid.ModLoc("exchangelife");
+
+    // recipe
+    public static final ResourceLocation RECIPE_WEVING_MIND_STAFF = Hexvoid.ModLoc("weaving_media/mind_staff");
+    public static final ResourceLocation RECIPE_WEVING_ENLIGHTENING_APPLE = Hexvoid.ModLoc("weaving_media/enlightening_apple");
 }

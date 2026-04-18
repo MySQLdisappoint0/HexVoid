@@ -28,7 +28,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 
-public class AdvancementGenerator implements ForgeAdvancementProvider.AdvancementGenerator {
+public class AdvancementProvider implements ForgeAdvancementProvider.AdvancementGenerator {
 
     public static ArrayList<Advancement> advancements = new ArrayList<>();
 

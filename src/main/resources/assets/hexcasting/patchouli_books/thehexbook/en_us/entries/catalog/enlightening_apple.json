@@ -2,7 +2,6 @@
   "name": "hexvoid.entry.enlightening_apple",
   "icon": "hexvoid:enlightening_apple",
   "category": "hexcasting:catalog",
-  "priority": true,
   "sortnum": 1,
   "advancement": "hexvoid:lore/research",
   "pages": [

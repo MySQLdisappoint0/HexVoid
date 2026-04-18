@@ -3,5 +3,5 @@
   "icon": "hexvoid:lore_fragment",
   "description": "hexvoid.category.catalog.desc",
   "advancement": "hexvoid:lore/research",
-  "sortnum": 10
+  "sortnum": 999
 }

@@ -2,10 +2,8 @@ package mys.hexvoid.datagen;
 
 import mys.hexvoid.Hexvoid;
 import net.minecraft.core.HolderLookup;
-import net.minecraft.core.Registry;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.PackOutput;
-import net.minecraft.data.tags.DamageTypeTagsProvider;
 import net.minecraft.data.tags.TagsProvider;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.tags.DamageTypeTags;
@@ -19,9 +17,9 @@ import java.util.ArrayList;
 import java.util.concurrent.CompletableFuture;
 
 
-public class DamageTypeTagsGenerator extends TagsProvider<DamageType> {
+public class DamageTypeTagsProvider extends TagsProvider<DamageType> {
 
-    protected DamageTypeTagsGenerator(PackOutput pOutput, CompletableFuture<HolderLookup.Provider> future, @Nullable ExistingFileHelper existingFileHelper) {
+    protected DamageTypeTagsProvider(PackOutput pOutput, CompletableFuture<HolderLookup.Provider> future, @Nullable ExistingFileHelper existingFileHelper) {
         super(pOutput, Registries.DAMAGE_TYPE, future, Hexvoid.MODID, existingFileHelper);
     }
 

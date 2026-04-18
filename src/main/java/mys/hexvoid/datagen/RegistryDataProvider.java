@@ -10,14 +10,14 @@ import net.minecraftforge.common.data.DatapackBuiltinEntriesProvider;
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 
-public class RegistryDataGenerator extends DatapackBuiltinEntriesProvider {
+public class RegistryDataProvider extends DatapackBuiltinEntriesProvider {
     public static final RegistrySetBuilder BUILDER = new RegistrySetBuilder();
 
     static {
         BUILDER.add(Registries.DAMAGE_TYPE, DamageTypes::bootstrap);
     }
 
-    public RegistryDataGenerator(PackOutput output, CompletableFuture<HolderLookup.Provider> provider) {
+    public RegistryDataProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> provider) {
         super(output, provider, BUILDER, Set.of("minecraft", Hexvoid.MODID));
     }
 }

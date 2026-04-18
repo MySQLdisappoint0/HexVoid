@@ -4,8 +4,10 @@ import at.petrak.hexcasting.common.lib.HexCreativeTabs;
 import at.petrak.hexcasting.common.lib.HexRegistries;
 import com.mojang.logging.LogUtils;
 import mys.hexvoid.block.HexvoidBlocks;
-import mys.hexvoid.datagen.LootModifiersRegistry;
+import mys.hexvoid.datagen.registry.LootModifiersRegistry;
 import mys.hexvoid.items.HexvoidItems;
+import mys.hexvoid.registry.HexvoidRecipes;
+import mys.hexvoid.registry.HexvoidSpellsRegistry;
 import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
@@ -32,6 +34,7 @@ public class Hexvoid {
 
         HexvoidItems.register(modEventBus);
         HexvoidBlocks.register(modEventBus);
+        HexvoidRecipes.register(modEventBus);
 
         modEventBus.addListener(this::commonSetup);
 
@@ -93,18 +96,6 @@ public class Hexvoid {
             // we have no client setup code
             LOGGER.info("HELLO FROM CLIENT SETUP");
             LOGGER.info("MINECRAFT NAME >> {}", Minecraft.getInstance().getUser().getName());
-        }
-    }
-
-    public static class RuntimeData {
-        private static boolean FROZEN = false;
-
-        public static boolean isFrozen() {
-            return FROZEN;
-        }
-
-        public static void setFrozen(boolean isFrozen) {
-            FROZEN = isFrozen;
         }
     }
 }

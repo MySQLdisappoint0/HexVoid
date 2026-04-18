@@ -10,8 +10,10 @@ import at.petrak.hexcasting.api.casting.iota.Iota;
 import at.petrak.hexcasting.api.casting.mishaps.Mishap;
 import at.petrak.hexcasting.api.casting.mishaps.MishapBadCaster;
 import at.petrak.hexcasting.api.misc.MediaConstants;
+import mys.hexvoid.HexvoidUtils;
 import mys.hexvoid.damagesource.DamageSources;
 import mys.hexvoid.datagen.DamageTypes;
+import mys.hexvoid.item.tags.HexvoidTags;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
@@ -61,9 +63,10 @@ public class OpChannelToVoid implements SpellAction {
             if (env.getCastingEntity() instanceof ServerPlayer player) {
                 if (player.getBlockY() - 1 == -64) {
                     if (player.level() instanceof ServerLevel serverLevel) {
-                        if (serverLevel.getBlockState(player.getOnPos()).is(Blocks.BEDROCK))
+                        if (serverLevel.getBlockState(player.getOnPos()).is(Blocks.BEDROCK)) {
                             serverLevel.destroyBlock(player.getOnPos(), false);
-                        else
+                            HexvoidUtils.awardAdvancement(player, serverLevel, HexvoidTags.ADV_DEEPWORLD, HexvoidTags.ADV_CRITERION_TRY_CHANNEL);
+                        } else
                             player.displayClientMessage(Component.translatable("hexvoid.msg.spell.ctv.block"), true);
                     }
                 } else player.displayClientMessage(Component.translatable("hexvoid.msg.spell.ctv.pos"), true);

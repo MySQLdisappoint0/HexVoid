@@ -14,7 +14,7 @@ public class DataGenerators {
     public static void gatherData(GatherDataEvent event) {
         var generator = event.getGenerator();
         var output = generator.getPackOutput();
-        var datapackProvider = new RegistryDataGenerator(output, event.getLookupProvider());
+        var datapackProvider = new RegistryDataProvider(output, event.getLookupProvider());
         var lookupProvider = datapackProvider.getRegistryProvider();
         var existingFileHelper = event.getExistingFileHelper();
 
@@ -26,20 +26,23 @@ public class DataGenerators {
                 output,
                 lookupProvider,
                 existingFileHelper,
-                List.of(new AdvancementGenerator())
+                List.of(new AdvancementProvider())
         ));
 
         // damage type tags
-        generator.addProvider(event.includeServer(), new DamageTypeTagsGenerator(
+        generator.addProvider(event.includeServer(), new DamageTypeTagsProvider(
                 output,
                 lookupProvider,
                 existingFileHelper
         ));
 
         // loot tables
-        generator.addProvider(event.includeServer(), new GlobalLootModifierGenerator(
+        generator.addProvider(event.includeServer(), new GlobalLootModifierProvider(
                 output,
                 Hexvoid.MODID
         ));
+
+        // recipes
+        generator.addProvider(event.includeServer(), new HvRecipeProvider(output));
     }
 }
