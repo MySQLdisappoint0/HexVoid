@@ -17,7 +17,7 @@ public class GlobalLootModifierProvider extends net.minecraftforge.common.data.G
                 "lootable_woodland_mansion",
                 new LootTableModifier(
                         new LootItemCondition[]{
-                                LootTableIdCondition.builder(ResourceLocation.fromNamespaceAndPath("minecraft", "chests/woodland_mansion")).build(),
+                                LootTableIdCondition.builder(ResourceLocation.withDefaultNamespace("chests/woodland_mansion")).build(),
                                 LootItemRandomChanceCondition.randomChance(0.10f).build() // 10% 概率
                         }
                 )
@@ -26,7 +26,7 @@ public class GlobalLootModifierProvider extends net.minecraftforge.common.data.G
                 "lootable_nether_bridge",
                 new LootTableModifier(
                         new LootItemCondition[]{
-                                LootTableIdCondition.builder(ResourceLocation.fromNamespaceAndPath("minecraft", "chests/nether_bridge")).build(),
+                                LootTableIdCondition.builder(ResourceLocation.withDefaultNamespace("chests/nether_bridge")).build(),
                                 LootItemRandomChanceCondition.randomChance(0.15f).build() // 15% 概率
                         }
                 )
@@ -35,7 +35,7 @@ public class GlobalLootModifierProvider extends net.minecraftforge.common.data.G
                 "lootable_desert_pyramid",
                 new LootTableModifier(
                         new LootItemCondition[]{
-                                LootTableIdCondition.builder(ResourceLocation.fromNamespaceAndPath("minecraft", "chests/desert_pyramid")).build(),
+                                LootTableIdCondition.builder(ResourceLocation.withDefaultNamespace("chests/desert_pyramid")).build(),
                                 LootItemRandomChanceCondition.randomChance(0.01f).build() // 1% 概率
                         }
                 )
@@ -44,7 +44,7 @@ public class GlobalLootModifierProvider extends net.minecraftforge.common.data.G
                 "lootable_end_city_treasure",
                 new LootTableModifier(
                         new LootItemCondition[]{
-                                LootTableIdCondition.builder(ResourceLocation.fromNamespaceAndPath("minecraft", "chests/end_city_treasure")).build(),
+                                LootTableIdCondition.builder(ResourceLocation.withDefaultNamespace("chests/end_city_treasure")).build(),
                                 LootItemRandomChanceCondition.randomChance(0.25f).build() // 25% 概率
                         }
                 )
@@ -53,7 +53,7 @@ public class GlobalLootModifierProvider extends net.minecraftforge.common.data.G
                 "lootable_stronghold_library",
                 new LootTableModifier(
                         new LootItemCondition[]{
-                                LootTableIdCondition.builder(ResourceLocation.fromNamespaceAndPath("minecraft", "chests/stronghold_library")).build(),
+                                LootTableIdCondition.builder(ResourceLocation.withDefaultNamespace("chests/stronghold_library")).build(),
                                 LootItemRandomChanceCondition.randomChance(0.05f).build() // 5% 概率
                         }
                 )
@@ -62,7 +62,7 @@ public class GlobalLootModifierProvider extends net.minecraftforge.common.data.G
                 "lootable_buried_treasure",
                 new LootTableModifier(
                         new LootItemCondition[]{
-                                LootTableIdCondition.builder(ResourceLocation.fromNamespaceAndPath("minecraft", "chests/buried_treasure")).build(),
+                                LootTableIdCondition.builder(ResourceLocation.withDefaultNamespace("chests/buried_treasure")).build(),
                                 LootItemRandomChanceCondition.randomChance(0.001f).build() // 0.1% 概率
                         }
                 )
@@ -71,7 +71,7 @@ public class GlobalLootModifierProvider extends net.minecraftforge.common.data.G
                 "lootable_igloo_chest",
                 new LootTableModifier(
                         new LootItemCondition[]{
-                                LootTableIdCondition.builder(ResourceLocation.fromNamespaceAndPath("minecraft", "chests/igloo_chest")).build(),
+                                LootTableIdCondition.builder(ResourceLocation.withDefaultNamespace("chests/igloo_chest")).build(),
                                 LootItemRandomChanceCondition.randomChance(0.001f).build() // 0.1% 概率
                         }
                 )
@@ -80,7 +80,7 @@ public class GlobalLootModifierProvider extends net.minecraftforge.common.data.G
                 "lootable_ancient_city",
                 new LootTableModifier(
                         new LootItemCondition[]{
-                                LootTableIdCondition.builder(ResourceLocation.fromNamespaceAndPath("minecraft", "chests/ancient_city")).build(),
+                                LootTableIdCondition.builder(ResourceLocation.withDefaultNamespace("chests/ancient_city")).build(),
                                 LootItemRandomChanceCondition.randomChance(0.10f).build() // 10% 概率
                         }
                 )
@@ -89,8 +89,17 @@ public class GlobalLootModifierProvider extends net.minecraftforge.common.data.G
                 "lootable_ancient_city_ice_box",
                 new LootTableModifier(
                         new LootItemCondition[]{
-                                LootTableIdCondition.builder(ResourceLocation.fromNamespaceAndPath("minecraft", "chests/ancient_city_ice_box")).build(),
+                                LootTableIdCondition.builder(ResourceLocation.withDefaultNamespace("chests/ancient_city_ice_box")).build(),
                                 LootItemRandomChanceCondition.randomChance(0.05f).build() // 5% 概率
+                        }
+                )
+        );
+        this.add(
+                "lootable_simple_dungeon",
+                new LootTableModifier(
+                        new LootItemCondition[]{
+                                LootTableIdCondition.builder(ResourceLocation.withDefaultNamespace("chests/simple_dungeon")).build(),
+                                LootItemRandomChanceCondition.randomChance(0.001f).build() // 0.1% 概率
                         }
                 )
         );

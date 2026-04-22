@@ -124,6 +124,8 @@ repositories {
 }
 
 dependencies {
+    implementation 'org.openjdk.nashorn:nashorn-core:15.4'
+
     //noinspection VulnerableLibrariesLocal
     minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
 

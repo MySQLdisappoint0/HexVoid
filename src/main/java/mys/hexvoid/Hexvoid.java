@@ -26,8 +26,13 @@ import org.slf4j.Logger;
 @Mod(Hexvoid.MODID)
 public class Hexvoid {
     public static final String MODID = "hexvoid";
-
     public static final Logger LOGGER = LogUtils.getLogger();
+    /**
+     * if this const is <code>true</code>, the debug part will enable.
+     * <p>
+     * the default value is <code>false</code>
+     */
+    public static boolean IS_DEBUG_MODE = false;
 
     public Hexvoid(FMLJavaModLoadingContext context) {
         IEventBus modEventBus = context.getModEventBus();
@@ -45,6 +50,10 @@ public class Hexvoid {
 
         // this registry is from datagen part
         LootModifiersRegistry.register(modEventBus);
+    }
+
+    public static void debug() {
+        IS_DEBUG_MODE = !IS_DEBUG_MODE;
     }
 
     public static ResourceLocation ModLoc(String path) {

@@ -1,6 +1,8 @@
 package mys.hexvoid.interop.patchouli;
 
+import mys.hexvoid.Hexvoid;
 import mys.hexvoid.recipe.WeavingMediaRecipe;
+import mys.hexvoid.registry.HexvoidRecipes;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
@@ -19,10 +21,14 @@ public class WeavingMediaProcessor implements IComponentProcessor {
 
         if (id == null) throw new NullPointerException("WeavingMedia recipe was not resolved in setup()");
 
+        if (Hexvoid.IS_DEBUG_MODE) {
+            var querier = level.getRecipeManager().getAllRecipesFor(HexvoidRecipes.WEAVING_MEDIA_TYPE.get());
+            querier.forEach((T) -> Hexvoid.LOGGER.debug("Found WeavingRecipe :{}", T.getId()));
+        }
+
         var holder = level.getRecipeManager().byKey(id).orElse(null);
         if (holder instanceof WeavingMediaRecipe weaving) recipe = weaving;
         else recipe = null;
-
 
         if (recipe == null) {
             System.out.println("Patchouli: WeavingMedia recipe not found: " + id);

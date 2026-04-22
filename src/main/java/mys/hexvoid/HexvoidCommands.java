@@ -29,6 +29,14 @@ public class HexvoidCommands {
                                             return 0;
                                         })
                                         .requires(source -> source.hasPermission(Commands.LEVEL_ADMINS))
+                        ).then(
+                                Commands.literal("debug")
+                                        .executes(ctx -> {
+                                            Hexvoid.debug();
+                                            ctx.getSource().sendSuccess(() -> Component.literal("debug mode " + (Hexvoid.IS_DEBUG_MODE ? "enabled" : "disabled")), true);
+                                            return 0;
+                                        })
+                                        .requires(source -> source.hasPermission(Commands.LEVEL_ADMINS))
                         )
         );
 
