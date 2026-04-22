@@ -11,6 +11,7 @@
     "EnchantmentMixin",
     "ForgeXplatImplMixin",
     "ItemStackMixin",
+    "PlayerMixin",
     "StickUseMixin"
   ],
   "client": [

@@ -96,7 +96,7 @@ public abstract class EnchantmentMixin {
         }
 
         // add [level] made the tooltip simply
-        text.append(Component.literal(" [" + level + "]"));
+        text.append(Component.literal(" [" + level + "]").withStyle(style -> style.withBold(true).withColor(ChatFormatting.GRAY)));
 
         cir.setReturnValue(text);
     }
