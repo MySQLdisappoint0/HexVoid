@@ -58,11 +58,7 @@ public class Hexvoid {
 
     public static ResourceLocation ModLoc(String path) {
         var patchedPath = path.toLowerCase();
-        if (ResourceLocation.isValidPath(patchedPath)) {
-            return ResourceLocation.fromNamespaceAndPath(MODID, patchedPath);
-        } else {
-            throw new IllegalArgumentException("path is not valid: " + patchedPath);
-        }
+        return ResourceLocation.fromNamespaceAndPath(MODID, patchedPath);
     }
 
     public void onRegister(RegisterEvent event) {
