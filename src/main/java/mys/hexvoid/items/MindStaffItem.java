@@ -9,10 +9,14 @@ import at.petrak.hexcasting.common.lib.HexAttributes;
 import at.petrak.hexcasting.common.lib.HexSounds;
 import at.petrak.hexcasting.common.msgs.MsgClearSpiralPatternsS2C;
 import at.petrak.hexcasting.common.msgs.MsgOpenSpellGuiS2C;
+import at.petrak.hexcasting.forge.xplat.ForgeXplatImpl;
 import at.petrak.hexcasting.xplat.IXplatAbstractions;
 import kotlin.Pair;
 import mys.hexvoid.Hexvoid;
 import mys.hexvoid.casting.vm.MindStaffEnv;
+import mys.hexvoid.helper.ClientInputHelper;
+import mys.hexvoid.helper.ForgeXplatImplMixinHelper;
+import mys.hexvoid.item.tags.HexvoidTags;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
@@ -150,14 +154,15 @@ public class MindStaffItem extends Item {
             if (canStore(player.getItemInHand(hand))) {
                 var staff = player.getItemInHand(hand);
                 var stackAnother = player.getItemInHand(getAnotherHand(hand));
-
                 var holder = IXplatAbstractions.INSTANCE.findMediaHolder(stackAnother);
+
                 boolean hasMedia;
-                if (holder == null)
-                    hasMedia = false;
+                if (holder == null) hasMedia = false;
                 else
                     hasMedia = (holder.canProvide() && MediaHelper.extractMedia(stackAnother, Long.MAX_VALUE - getStoredMedia(staff), false, true) > 0);
-                Hexvoid.LOGGER.debug(String.valueOf(hasMedia));
+
+                if (Hexvoid.IS_DEBUG_MODE) Hexvoid.LOGGER.debug(String.valueOf(hasMedia));
+
                 if (hasMedia && getStoredMedia(staff) < Long.MAX_VALUE) {
                     tryStore(stackAnother, staff);
                     return InteractionResultHolder.success(player.getItemInHand(hand));
@@ -186,19 +191,26 @@ public class MindStaffItem extends Item {
                 }
             }
 
+            var showCost = false;
+            if (world.isClientSide()) {
+                showCost = ClientInputHelper.isCtrlDown();
+                ((ForgeXplatImplMixinHelper) ForgeXplatImpl.INSTANCE).setShowCost(showCost);
+            }
+
             if (!world.isClientSide() && player instanceof ServerPlayer serverPlayer) {
                 CastingVM vm = new CastingVM(
                         CastingImage.loadFromNbt(
                                 player.getPersistentData().getCompound(TAG_VM),
                                 serverPlayer.serverLevel()
                         ),
-                        new MindStaffEnv(serverPlayer, hand)
+                        new MindStaffEnv(serverPlayer, hand, showCost)
                 );
 
                 ListTag patternsTag = player.getPersistentData().getList(TAG_PATTERNS, Tag.TAG_COMPOUND);
 
                 Pair<List<CompoundTag>, CompoundTag> descs = vm.generateDescs();
                 IXplatAbstractions.INSTANCE.sendPacketToPlayer(serverPlayer, new MsgOpenSpellGuiS2C(hand, new ArrayList<>(patternsTag.size()), descs.getFirst(), descs.getSecond(), 0));
+                serverPlayer.getPersistentData().put(HexvoidTags.TAG_PATTERN_CLEARED, new CompoundTag());
             }
 
             player.awardStat(Stats.ITEM_USED.get(this));

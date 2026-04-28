@@ -1,6 +1,5 @@
 package mys.hexvoid.mixin;
 
-import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import net.minecraft.world.entity.player.Inventory;
@@ -10,7 +9,6 @@ import net.minecraft.world.inventory.ItemCombinerMenu;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.enchantment.Enchantment;
 import org.jetbrains.annotations.Nullable;
-import org.objectweb.asm.Opcodes;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 
@@ -29,6 +27,7 @@ public abstract class AnvilMenuMixin extends ItemCombinerMenu {
         return vanilla == 1 ? 1 : 65536;
     }
 
+    /*
     @ModifyExpressionValue(
             method = "createResult",
             at = @At(value = "FIELD", target = "Lnet/minecraft/world/entity/player/Abilities;instabuild:Z", ordinal = 1, opcode = Opcodes.GETFIELD)
@@ -36,4 +35,5 @@ public abstract class AnvilMenuMixin extends ItemCombinerMenu {
     private boolean removeTooExpensive(boolean original) {
         return true;
     }
+     */
 }
